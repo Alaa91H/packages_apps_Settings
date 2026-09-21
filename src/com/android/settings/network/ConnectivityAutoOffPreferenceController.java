@@ -28,6 +28,8 @@ public class ConnectivityAutoOffPreferenceController extends BasePreferenceContr
     public static final String KEY_BLUETOOTH_AUTO_OFF_TIMEOUT = "bluetooth_auto_off_timeout";
 
     private static final long TIMEOUT_DISABLED = 0L;
+    private static final long TIMEOUT_MIN = 15_000L;
+    private static final long TIMEOUT_MAX = 8 * 60 * 60 * 1000L;
 
     private ListPreference mPreference;
 
@@ -81,7 +83,8 @@ public class ConnectivityAutoOffPreferenceController extends BasePreferenceContr
             return false;
         }
 
-        if (timeout < TIMEOUT_DISABLED) {
+        if (timeout != TIMEOUT_DISABLED
+                && (timeout < TIMEOUT_MIN || timeout > TIMEOUT_MAX)) {
             return false;
         }
 
