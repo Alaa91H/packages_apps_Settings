@@ -78,6 +78,16 @@
             android:title="@string/wifi_settings_primary_switch_title"
             settings:keywords="@string/keywords_wifi"
             settings:restrictedSwitchSummary="@string/not_allowed_by_ent"/>
+
+        <ListPreference
+            android:key="wifi_auto_off_timeout"
+            android:title="@string/wifi_auto_off_timeout_title"
+            android:dialogTitle="@string/wifi_auto_off_timeout_title"
+            android:entries="@array/custom_timeout_entries"
+            android:entryValues="@array/custom_timeout_values"
+            android:defaultValue="0"
+            android:persistent="false"
+            settings:controller="com.android.settings.network.ConnectivityAutoOffPreferenceController"/>
     </PreferenceCategory>
 
     <PreferenceCategory
