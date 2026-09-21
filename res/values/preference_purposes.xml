@@ -623,6 +623,8 @@
     <string name="lockscreen_from_display_settings_purpose" translatable="false">Allows users to configure what information and controls are visible on the lock screen and when the screen should wake up.</string>
     <string name="use_wifi_hotspot_purpose" translatable="false">Whether the Wi-Fi hotspot is currently enabled</string>
     <string name="wifi_tether_auto_turn_off_purpose" translatable="false">Whether the hotspot automatically turns off when no devices are connected</string>
+    <string name="wifi_auto_off_timeout_purpose" translatable="false">How long Wi-Fi stays enabled before it is turned off automatically</string>
+    <string name="bluetooth_auto_off_timeout_purpose" translatable="false">How long Bluetooth stays enabled before it is turned off automatically</string>
     <string name="wifi_tether_network_name_purpose" translatable="false">The broadcast name (SSID) of the Wi-Fi hotspot</string>
     <string name="experimental_category_purpose" translatable="false">experimental_category</string>
     <string name="animated_image_purpose" translatable="false">animated_image</string>
