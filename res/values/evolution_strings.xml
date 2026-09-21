@@ -83,6 +83,10 @@
         <item quantity="one">Up to <xliff:g id="device_num">%1$d</xliff:g> device can connect to this hotspot</item>
     </plurals>
 
+    <!-- Connectivity auto-off -->
+    <string name="wifi_auto_off_timeout_title">Turn off Wi-Fi automatically</string>
+    <string name="bluetooth_auto_off_timeout_title">Turn off Bluetooth automatically</string>
+
     <!-- Custom auto timeout -->
     <string name="custom_timeout_summary_never">Never</string>
     <string name="custom_timeout_summary_5secs">5 seconds</string>

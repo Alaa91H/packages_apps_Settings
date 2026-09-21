@@ -25,6 +25,16 @@
         android:summary="@string/bluetooth_screen_auto_on_summary"
         settings:controller="com.android.settings.bluetooth.BluetoothAutoOnPreferenceController"/>
 
+    <ListPreference
+        android:key="bluetooth_auto_off_timeout"
+        android:title="@string/bluetooth_auto_off_timeout_title"
+        android:dialogTitle="@string/bluetooth_auto_off_timeout_title"
+        android:entries="@array/custom_timeout_entries"
+        android:entryValues="@array/custom_timeout_values"
+        android:defaultValue="0"
+        android:persistent="false"
+        settings:controller="com.android.settings.network.ConnectivityAutoOffPreferenceController"/>
+
     <Preference
         android:key="bluetooth_screen_bt_pair_rename_devices"
         android:title="@string/bluetooth_device_name"
