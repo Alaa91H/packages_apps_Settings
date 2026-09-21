@@ -83,6 +83,14 @@
             settings:controller="org.evolution.settings.battery.BatterySaverSwitchPreferenceController" />
 
         <ListPreference
+            android:key="low_power_cpu_limit_percent"
+            android:title="@string/battery_saver_cpu_limit_title"
+            android:summary="@string/battery_saver_cpu_limit_summary"
+            android:entries="@array/battery_saver_cpu_limit_entries"
+            android:entryValues="@array/battery_saver_cpu_limit_values"
+            settings:controller="org.evolution.settings.battery.BatterySaverLevelPreferenceController" />
+
+        <ListPreference
             android:key="low_power_brightness_reduction"
             android:title="@string/battery_saver_brightness_reduction_title"
             android:summary="@string/battery_saver_brightness_reduction_summary"
@@ -108,11 +116,13 @@
             android:summary="@string/battery_saver_force_dark_summary"
             settings:controller="org.evolution.settings.battery.BatterySaverSwitchPreferenceController" />
 
-        <SwitchPreferenceCompat
+        <ListPreference
             android:key="low_power_screen_timeout"
             android:title="@string/battery_saver_screen_timeout_title"
             android:summary="@string/battery_saver_screen_timeout_summary"
-            settings:controller="org.evolution.settings.battery.BatterySaverSwitchPreferenceController" />
+            android:entries="@array/battery_saver_screen_timeout_entries"
+            android:entryValues="@array/battery_saver_screen_timeout_values"
+            settings:controller="org.evolution.settings.battery.BatterySaverLevelPreferenceController" />
 
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
