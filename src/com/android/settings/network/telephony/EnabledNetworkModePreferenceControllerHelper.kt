@@ -29,14 +29,52 @@ import com.android.settings.network.telephony.MobileNetworkSettingsSearchIndex.M
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+private val NETWORK_TYPE_BITMASK_2G =
+    TelephonyManager.NETWORK_TYPE_BITMASK_GSM or
+        TelephonyManager.NETWORK_TYPE_BITMASK_GPRS or
+        TelephonyManager.NETWORK_TYPE_BITMASK_EDGE or
+        TelephonyManager.NETWORK_TYPE_BITMASK_CDMA or
+        TelephonyManager.NETWORK_TYPE_BITMASK_1xRTT
+
 fun TelephonyManager.setAllowedNetworkTypes(
     viewLifecycleOwner: LifecycleOwner,
     newPreferredNetworkMode: Int,
 ) {
+    setAllowedNetworkTypes(
+        viewLifecycleOwner,
+        Integer.toUnsignedLong(RadioAccessFamily.getRafFromNetworkType(newPreferredNetworkMode)),
+    )
+}
+
+fun TelephonyManager.setAllowedNetworkTypes(
+    viewLifecycleOwner: LifecycleOwner,
+    allowedNetworkTypes: Long,
+) {
     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+        // Keep the dedicated 2G reason in sync with the selected generation combination.
+        // This lets a direct 2G-containing selection work even when the old Enable 2G
+        // preference was previously off. Other framework/baseband reasons still apply.
+        var enable2gReason =
+            getAllowedNetworkTypesForReason(TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_ENABLE_2G)
+        if (enable2gReason == 0L) {
+            enable2gReason = getSupportedRadioAccessFamily()
+        }
+
+        val supported2g = getSupportedRadioAccessFamily() and NETWORK_TYPE_BITMASK_2G
+        val updatedEnable2gReason =
+            if ((allowedNetworkTypes and NETWORK_TYPE_BITMASK_2G) != 0L) {
+                enable2gReason or supported2g
+            } else {
+                enable2gReason and NETWORK_TYPE_BITMASK_2G.inv()
+            }
+
+        setAllowedNetworkTypesForReason(
+            TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_ENABLE_2G,
+            updatedEnable2gReason,
+        )
         setAllowedNetworkTypesForReason(
             TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_USER,
-            RadioAccessFamily.getRafFromNetworkType(newPreferredNetworkMode).toLong(),
+            allowedNetworkTypes,
         )
     }
 }
