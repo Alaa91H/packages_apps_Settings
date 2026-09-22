@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="app_lock_summary_count">
+        <item quantity="zero">لا توجد تطبيقات مقفلة</item>
+        <item quantity="one">تطبيق واحد مقفل</item>
+        <item quantity="two">تطبيقان مقفلان</item>
+        <item quantity="few"><xliff:g id="count" example="3">%d</xliff:g> تطبيقات مقفلة</item>
+        <item quantity="many"><xliff:g id="count" example="11">%d</xliff:g> تطبيقًا مقفلًا</item>
+        <item quantity="other"><xliff:g id="count" example="100">%d</xliff:g> تطبيق مقفل</item>
+    </plurals>
+</resources>
