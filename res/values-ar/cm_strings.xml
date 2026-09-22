@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2017-2023 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="keyboard_extras_title">الإضافات</string>
+    <string name="advanced_keyboard_settings_title">الإعدادات المتقدمة</string>
+    <string name="adb_enable_root">تصحيح بالروت</string>
+    <string name="adb_enable_summary_root">السماح بتشغيل مصحح أخطاء أندرويد بصلاحية روت</string>
+    <string name="backup_transport_setting_label">تغيير موفر النسخ الاحتياطي</string>
+    <string name="backup_transport_title">حدد موفر النسخ الاحتياطي</string>
+    <string name="berry_black_theme_title">أسود خالص</string>
+    <string name="berry_black_theme_summary">خلفية سوداء خالصة للوضع المظلم</string>
+    <string name="lineagelicense_title">قانون LineageOS</string>
+    <string name="show_dev_on_cm">مكّنتَ خيارات المطور!</string>
+    <string name="show_dev_already_cm">لا داعي، فخيارات المطور مفعّلة.</string>
+    <string name="status_bar_double_tap_to_sleep_title">اضغط للنوم</string>
+    <string name="status_bar_double_tap_to_sleep_summary">الضغط مرتين فوق شريط الحالة لإطفاء الشاشة</string>
+    <string name="heads_up_notifications_enabled_title">الإشعارات العائمة</string>
+    <string name="heads_up_notifications_enabled_summary">عرض الإشعارات ذات الأولوية في إطار عائم صغير</string>
+    <string name="high_touch_sensitivity_title">حساسية ذات لمس عالي</string>
+    <string name="high_touch_sensitivity_summary">زيادة حساسية شاشة اللمس حتى يمكن استخدامها أثناء ارتداء القفازات</string>
+    <string name="lock_settings_picker_pattern_size_message">اختر حجم النمط</string>
+    <string name="lockpattern_settings_enable_error_path_title">إظهار خطأ النمط</string>
+    <string name="lockpattern_settings_enable_dots_title">إظهار نقاط النمط</string>
+    <string name="max_refresh_rate_title">معدل التحديث الأقصى</string>
+    <string name="min_refresh_rate_title">معدل تحديث الشاشة الأدنى</string>
+    <string name="show_navbar_hint_title">تلميح عن التنقل</string>
+    <string name="show_navbar_hint_summary">إظهار شريط تنقل التلميح أسفل الشاشة</string>
+    <string name="data_usage_app_restrict_all">السماح بالوصول إلى الشبكة</string>
+    <string name="data_usage_app_restrict_all_summary">تمكين استخدام الشبكة</string>
+    <string name="data_usage_app_restrict_mobile">بيانات الجوال</string>
+    <string name="data_usage_app_restrict_mobile_summary">تمكين استخدام بيانات الجوال</string>
+    <string name="data_usage_app_restrict_vpn">بيانات الـ VPN</string>
+    <string name="data_usage_app_restrict_vpn_summary">تمكين استخدام بيانات الـ VPN</string>
+    <string name="data_usage_app_restrict_wifi">بيانات WiFi</string>
+    <string name="data_usage_app_restrict_wifi_summary">تمكين استخدام بيانات WiFi</string>
+    <string name="unlock_scramble_pin_layout_title">تخطيط الترميز</string>
+    <string name="unlock_scramble_pin_layout_summary">تخطيط رقم PIN المرمز عند إلغاء تأمين الجهاز</string>
+    <string name="proximity_wake_title">منع الاستيقاظ العشوائي</string>
+    <string name="proximity_wake_summary">التحقق من مستشعر القرب قبل إيقاظ الشاشة</string>
+    <string name="touchscreen_hovering_title">المرور فوق الشاشة اللمسية</string>
+    <string name="touchscreen_hovering_summary">يسمح لك بالمرور فوق الشاشة مثل الماوس في مستعرضات الويب، أو سطح المكتب عن بُعد، إلخ</string>
+    <string name="wake_when_plugged_or_unplugged_title">الإيقاظ عند التوصيل</string>
+    <string name="wake_when_plugged_or_unplugged_summary">تشغيل الشاشة عند الاتصال أو قطع الاتصال بمصدر الطاقة</string>
+
+    <!-- Additional Arabic translations for Evolution/Lineage settings -->
+    <string name="show_dev_countdown_cm">{count, plural,
+      =1      {أنت الآن على بُعد خطوة واحدة من تفعيل إعدادات المطوّر.}
+      other   {أنت الآن على بُعد # خطوات من تفعيل إعدادات المطوّر.}
+    }</string>
+    <string name="high_touch_polling_rate_title">معدل استطلاع لمس مرتفع</string>
+    <string name="high_touch_polling_rate_summary">زيادة معدل أخذ عينات شاشة اللمس</string>
+    <string name="tethering_allow_vpn_upstreams_title">استخدام VPN للأجهزة المتصلة</string>
+    <string name="tethering_allow_vpn_upstreams_summary">عند استخدام هذا الجهاز لاتصال VPN، ستستخدم جميع الأجهزة المتصلة بنقطة الاتصال اتصال VPN نفسه</string>
+    <string name="fingerprint_enroll_find_sensor_message_front" product="tablet">حدّد موقع مستشعر البصمة في الجهة الأمامية من جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_find_sensor_message_front" product="device">حدّد موقع مستشعر البصمة في الجهة الأمامية من جهازك.</string>
+    <string name="fingerprint_enroll_find_sensor_message_front" product="default">حدّد موقع مستشعر البصمة في الجهة الأمامية من هاتفك.</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="tablet">حدّد موقع مستشعر البصمة في الجهة الخلفية من جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="device">حدّد موقع مستشعر البصمة في الجهة الخلفية من جهازك.</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="default">حدّد موقع مستشعر البصمة في الجهة الخلفية من هاتفك.</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="tablet">حدّد موقع مستشعر البصمة على جانب جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="device">حدّد موقع مستشعر البصمة على جانب جهازك.</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="default">حدّد موقع مستشعر البصمة على جانب هاتفك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="tablet">المس المستشعر في الجهة الأمامية من جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="device">المس المستشعر في الجهة الأمامية من جهازك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="default">المس المستشعر في الجهة الأمامية من هاتفك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="tablet">المس المستشعر في الجهة الخلفية من جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="device">المس المستشعر في الجهة الخلفية من جهازك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="default">المس المستشعر في الجهة الخلفية من هاتفك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="tablet">المس المستشعر على جانب جهازك اللوحي.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="device">المس المستشعر على جانب جهازك.</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="default">المس المستشعر على جانب هاتفك.</string>
+    <string name="auto_brightness_one_shot_title">السطوع التلقائي لمرة واحدة</string>
+    <string name="auto_brightness_one_shot_summary">لن يتم ضبط السطوع إلا لحظة تشغيل الشاشة</string>
+    <string name="storage_warning_internal">تحذير: قد لا يعمل هذا الخيار بشكل صحيح أو قد يؤدي إلى فقدان البيانات، ولذلك لا يُنصح به!</string>
+    <string name="assisted_gps">استخدام GPS المساعد</string>
+    <string name="assisted_gps_summary">تنزيل بيانات مساعدة الأقمار الصناعية من الإنترنت، ما قد يحسّن بدء تشغيل GPS بشكل كبير. ويُسمح دائمًا باستخدام GPS المساعد لمكالمات الطوارئ.</string>
+    <string name="battery_technology">التقنية</string>
+    <string name="battery_health">حالة البطارية</string>
+    <string name="battery_health_good">جيدة</string>
+    <string name="battery_health_overheat">حرارة زائدة</string>
+    <string name="battery_health_dead">تالفة</string>
+    <string name="battery_health_over_voltage">جهد زائد</string>
+    <string name="battery_health_unspecified_failure">عطل غير محدد</string>
+    <string name="battery_health_cold">باردة</string>
+    <string name="battery_health_unknown">غير معروفة</string>
+    <string name="battery_temperature">درجة الحرارة</string>
+    <string name="battery_voltage">الجهد</string>
+    <string name="battery_charge_counter_summary">%1$d mAh</string>
+    <string name="battery_design_capacity">السعة التصميمية</string>
+    <string name="battery_design_capacity_summary">%1$d mAh</string>
+    <string name="battery_maximum_capacity">السعة القصوى</string>
+    <string name="battery_maximum_capacity_summary">%1$d mAh (%2$d%%)</string>
+
+</resources>
