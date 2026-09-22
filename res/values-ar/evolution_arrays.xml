@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="custom_timeout_entries">
+        <item>@string/custom_timeout_summary_never</item>
+        <item>@string/custom_timeout_summary_15secs</item>
+        <item>@string/custom_timeout_summary_30secs</item>
+        <item>@string/custom_timeout_summary_1min</item>
+        <item>@string/custom_timeout_summary_2mins</item>
+        <item>@string/custom_timeout_summary_5mins</item>
+        <item>@string/custom_timeout_summary_10mins</item>
+        <item>@string/custom_timeout_summary_30mins</item>
+        <item>@string/custom_timeout_summary_1hour</item>
+        <item>@string/custom_timeout_summary_2hours</item>
+        <item>@string/custom_timeout_summary_4hours</item>
+        <item>@string/custom_timeout_summary_8hours</item>
+    </string-array>
+    <string-array name="display_engine_mode_entries">
+        <item>@string/display_engine_default</item>
+        <item>@string/x_reality_engine_mode_title</item>
+        <item>@string/vivid_engine_mode_title</item>
+        <item>@string/triluminous_engine_mode_title</item>
+        <item>@string/natural_engine_mode_title</item>
+        <item>@string/cinema_engine_mode_title</item>
+        <item>@string/reading_engine_mode_title</item>
+    </string-array>
+    <string-array name="vibration_pattern_entries">
+        <item>@string/pattern_dzzz_dzzz</item>
+        <item>@string/pattern_dzzz_da</item>
+        <item>@string/pattern_mm_mm_mm</item>
+        <item>@string/pattern_da_da_dzzz</item>
+        <item>@string/pattern_da_dzzz_da</item>
+        <item>@string/pattern_custom</item>
+    </string-array>
+    <string-array name="vibration_pattern_values">
+        <item>0</item><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item>
+    </string-array>
+    <array name="global_locales">
+        <item>en</item><item>de</item><item>es</item><item>fr</item><item>it</item><item>pt</item><item>hi</item><item>ja</item><item>zh-Hans</item><item>zh-Hant</item>
+    </array>
+    <array name="japan_locales"><item>ja</item></array>
+    <array name="tts_locales">
+        <item>en</item><item>de</item><item>es</item><item>fr</item><item>it</item><item>ja</item>
+    </array>
+    <array name="united_states_locales"><item>en-US</item><item>es-US</item></array>
+    <string-array name="app_lock_relock_behavior_entries">
+        <item>بعد انتهاء المهلة</item>
+        <item>عند إيقاف الشاشة</item>
+    </string-array>
+    <string-array name="app_lock_grace_period_entries">
+        <item>فورًا</item>
+        <item>5 ثوانٍ</item>
+        <item>15 ثانية</item>
+        <item>30 ثانية</item>
+        <item>دقيقة واحدة</item>
+        <item>5 دقائق</item>
+    </string-array>
+</resources>
