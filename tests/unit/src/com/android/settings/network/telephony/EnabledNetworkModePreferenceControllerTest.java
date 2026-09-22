@@ -523,11 +523,11 @@ public class EnabledNetworkModePreferenceControllerTest {
 
     @UiThreadTest
     @Test
-    public void updateState_allHardwareGenerations_exposes2gCombinationsWithoutCarrierFiltering() {
+    public void updateState_allHardwareGenerations_exposesCompleteGenerationPowerset() {
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE)).thenReturn(null);
 
-        // Deliberately hide generations through carrier/config reasons. Custom generation
-        // combinations must still be derived from modem hardware capabilities.
+        // Deliberately hide generations through carrier/config reasons. The advanced list must
+        // still cover every non-empty subset of the generations reported by the modem.
         mockAllowedNetworkTypes(0L);
         mPersistableBundle.putBoolean(CarrierConfigManager.KEY_PREFER_2G_BOOL, false);
         mPersistableBundle.putBoolean(CarrierConfigManager.KEY_LTE_ENABLED_BOOL, false);
@@ -539,20 +539,24 @@ public class EnabledNetworkModePreferenceControllerTest {
 
         mController.updateState(mPreference);
 
+        final int supportedGenerations = mController.mBuilder.getSupportedGenerationMask();
+        int expectedCombinations = 0;
+        for (int combination = 1; combination <= supportedGenerations; combination++) {
+            if ((combination & supportedGenerations) == combination) {
+                expectedCombinations++;
+                assertTrue(
+                        "Missing generation combination mask " + combination,
+                        mController.mBuilder.hasGenerationCombination(combination));
+            }
+        }
+
+        // Four supported generations must expose all 2^4 - 1 = 15 non-empty combinations,
+        // whether a combination is represented by a stock entry or a custom raw-RAF entry.
+        assertEquals(15, expectedCombinations);
         assertThat(mPreference.getEntries()).asList().contains(
                 mContext.getString(R.string.evolver_network_mode_only_format, "2G"));
         assertThat(mPreference.getEntries()).asList().contains(
-                mContext.getString(R.string.evolver_network_mode_only_format, "3G / 2G"));
-        assertThat(mPreference.getEntries()).asList().contains(
-                mContext.getString(R.string.evolver_network_mode_only_format, "LTE / 2G"));
-        assertThat(mPreference.getEntries()).asList().contains(
-                mContext.getString(R.string.evolver_network_mode_only_format, "5G / 2G"));
-        assertThat(mPreference.getEntries()).asList().contains(
                 mContext.getString(R.string.evolver_network_mode_only_format, "5G / LTE / 2G"));
-        assertThat(mPreference.getEntries()).asList().contains(
-                mContext.getString(
-                        R.string.evolver_network_mode_only_format,
-                        "5G / LTE / 3G / 2G"));
     }
 
     @UiThreadTest
