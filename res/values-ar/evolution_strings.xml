@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="evolution_license_title">المعلومات القانونية لـ Evolution X</string>
+    <string name="build_maintainer_label">الصيانة بواسطة</string>
+    <string name="build_maintainer">مشرف الإصدار</string>
+    <string name="maintainer_link_github">الملف الشخصي على GitHub</string>
+    <string name="maintainer_link_donate">تبرع</string>
+    <string name="device_name">الجهاز</string>
+    <string name="device_market_name">الاسم التجاري</string>
+    <string name="hardware_platform_label">المنصة</string>
+    <string name="total_ram">إجمالي ذاكرة RAM</string>
+    <string name="hardware_sku">رمز SKU للعتاد</string>
+    <string name="usb_default_config_title">إعداد USB</string>
+    <string name="usb_default_config_summary">اختر السلوك الافتراضي عند توصيل الجهاز عبر USB</string>
+    <string name="status_sleep_time">السكون العميق</string>
+    <string name="security_settings_face_enroll_finish_description_with_bp">يمكنك الآن استخدام وجهك لإلغاء قفل هاتفك أو للتحقق من هويتك، مثل تسجيل الدخول إلى التطبيقات أو الموافقة على عملية شراء</string>
+    <string name="face_down_sleep_title">اكتشاف وضع الشاشة للأسفل</string>
+    <string name="face_down_sleep_summary">إيقاف الشاشة بعد فترة قصيرة عند وضع الجهاز ووجهه لأسفل</string>
+    <string name="doze_gesture_ambient_title">عرض الشاشة المحيطة</string>
+    <string name="doze_gesture_ambient_summary">عرض الشاشة المحيطة بدلًا من تنشيط الشاشة بالكامل</string>
+    <string name="gesture_wake_ambient">عرض الشاشة المحيطة</string>
+    <string name="gesture_wake">تنشيط الشاشة بالكامل</string>
+    <string name="doze_gesture_vibrate_title">الاستجابة اللمسية</string>
+    <string name="doze_gesture_vibrate_summary">الاهتزاز عند تنفيذ هذه الإيماءة</string>
+    <string name="pulse_on_new_tracks_title">مؤشر الموسيقى</string>
+    <string name="pulse_on_new_tracks_summary">عرض الشاشة المحيطة عند تشغيل مقطع موسيقي جديد</string>
+    <string name="screenshot_shutter_sound_title">صوت لقطة الشاشة</string>
+    <string name="lock_screen_auto_pin_confirm_summary_custom">إلغاء القفل تلقائيًا عند إدخال رقم PIN صحيح. هذا أقل أمانًا قليلًا من الضغط على إدخال للتأكيد.</string>
+    <string name="wifi_do_not_validate_eap_server">عدم التحقق</string>
+    <string name="wifi_do_not_validate_eap_server_warning">لم يتم تحديد شهادة. لن يكون اتصالك خاصًا.</string>
+    <string name="wifi_hotspot_hidden_ssid_title">شبكة مخفية</string>
+    <string name="wifi_hotspot_hidden_ssid_summary">لن يظهر اسم نقطة الاتصال المحمولة في قائمة شبكات WLAN المتاحة.</string>
+    <string name="wifi_hotspot_client_manager_title">الأجهزة المتصلة</string>
+    <string name="wifi_hotspot_client_manager_summary">عرض وإدارة الأجهزة المتصلة بنقطة الاتصال</string>
+    <string name="wifi_hotspot_client_manager_list_only_summary">عرض الأجهزة المتصلة بنقطة الاتصال</string>
+    <string name="wifi_hotspot_client_limit_title">الحد الأقصى للأجهزة المتصلة</string>
+    <string name="wifi_hotspot_blocked_clients_list_title">الأجهزة المحظورة</string>
+    <string name="wifi_hotspot_connected_clients_list_title">الأجهزة المتصلة</string>
+    <string name="wifi_hotspot_block_client_dialog_title">حظر الجهاز</string>
+    <string name="wifi_hotspot_block_client_dialog_text">سيؤدي هذا الإجراء إلى قطع اتصال "<xliff:g id="device_name">%1$s</xliff:g>" بهذا الجهاز وإضافته إلى قائمة الحظر</string>
+    <string name="wifi_hotspot_unblock_client_dialog_title">إلغاء حظر الجهاز</string>
+    <string name="wifi_hotspot_unblock_client_dialog_text">سيتمكن الجهاز "<xliff:g id="device_name">%1$s</xliff:g>" من الاتصال بنقطة الاتصال هذه</string>
+    <string name="wifi_hotspot_client_manager_footer_text">لا توجد أجهزة عميلة متاحة حاليًا. ستظهر الأجهزة المتصلة والمحظورة هنا عند توفرها.</string>
+    <plurals name="wifi_hotspot_client_limit_summary">
+        <item quantity="zero">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> جهاز الاتصال بنقطة الاتصال هذه</item>
+        <item quantity="one">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> جهاز الاتصال بنقطة الاتصال هذه</item>
+        <item quantity="two">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> جهازين الاتصال بنقطة الاتصال هذه</item>
+        <item quantity="few">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> أجهزة الاتصال بنقطة الاتصال هذه</item>
+        <item quantity="many">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> جهازًا الاتصال بنقطة الاتصال هذه</item>
+        <item quantity="other">يمكن لما يصل إلى <xliff:g id="device_num">%1$d</xliff:g> جهاز الاتصال بنقطة الاتصال هذه</item>
+    </plurals>
+    <string name="wifi_auto_off_timeout_title">إيقاف Wi-Fi تلقائيًا</string>
+    <string name="bluetooth_auto_off_timeout_title">إيقاف Bluetooth تلقائيًا</string>
+    <string name="custom_timeout_summary_never">أبدًا</string>
+    <string name="custom_timeout_summary_5secs">5 ثوانٍ</string>
+    <string name="custom_timeout_summary_10secs">10 ثوانٍ</string>
+    <string name="custom_timeout_summary_15secs">15 ثانية</string>
+    <string name="custom_timeout_summary_30secs">30 ثانية</string>
+    <string name="custom_timeout_summary_1min">دقيقة واحدة</string>
+    <string name="custom_timeout_summary_2mins">دقيقتان</string>
+    <string name="custom_timeout_summary_5mins">5 دقائق</string>
+    <string name="custom_timeout_summary_10mins">10 دقائق</string>
+    <string name="custom_timeout_summary_20mins">20 دقيقة</string>
+    <string name="custom_timeout_summary_30mins">30 دقيقة</string>
+    <string name="custom_timeout_summary_1hour">ساعة واحدة</string>
+    <string name="custom_timeout_summary_2hours">ساعتان</string>
+    <string name="custom_timeout_summary_4hours">4 ساعات</string>
+    <string name="custom_timeout_summary_8hours">8 ساعات</string>
+    <string name="custom_timeout_summary_12hours">12 ساعة</string>
+    <string name="custom_timeout_summary_24hours">24 ساعة</string>
+    <string name="custom_timeout_summary_36hours">36 ساعة</string>
+    <string name="custom_timeout_summary_48hours">48 ساعة</string>
+    <string name="custom_timeout_summary_72hours">72 ساعة</string>
+    <string name="custom_timeout_summary_1hour_def">ساعة واحدة (افتراضي)</string>
+    <string name="show_ime_space_title">إظهار مساحة زر طريقة الإدخال</string>
+    <string name="show_ime_space_summary">تفعيل ميزة التبديل السريع لطريقة الإدخال للتبديل بين طرق الإدخال أو إخفاء لوحة المفاتيح على الشاشة من شريط الميزات أسفل الشاشة أثناء الكتابة</string>
+    <string name="display_engine_category">محرك العرض</string>
+    <string name="display_engine_mode_title">محرك عرض Reality</string>
+    <string name="x_reality_engine_mode_title">محرك X-Reality</string>
+    <string name="vivid_engine_mode_title">عرض حيوي</string>
+    <string name="triluminous_engine_mode_title">عرض Triluminous</string>
+    <string name="natural_engine_mode_title">عرض طبيعي</string>
+    <string name="cinema_engine_mode_title">عرض سينمائي</string>
+    <string name="reading_engine_mode_title">عرض مريح (وضع القراءة)</string>
+    <string name="display_engine_default">افتراضي</string>
+    <string name="display_engine_mode_footer_text">مستوحى من محرك Bravia/X-Reality من Sony، يوفّر محرك العرض وضع Vivid لتعزيز السطوع وتشبع الألوان، ووضع X-Reality لتحسين التفاصيل ودقة الألوان، ووضع Triluminous لنطاق ألوان أوسع.</string>
+    <string name="double_tap_screen_to_sleep_summary">انقر مرتين على مساحة فارغة في شاشة القفل لإيقاف الشاشة.</string>
+    <string name="double_tap_screen_to_sleep_title">النقر مرتين لإيقاف الشاشة</string>
+    <string name="keywords_double_tap_screen_to_sleep">النقر مرتين للسكون، شاشة القفل</string>
+    <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
+    <string name="longpress_to_clipboard">اضغط مطولًا للنسخ</string>
+    <string name="vpn_enforce_dns_title">تعطيل مع VPN</string>
+    <string name="vpn_enforce_dns_summary">تعطيل DNS الخاص عند الاتصال بشبكة VPN\nوسيُعاد تفعيله عند قطع الاتصال</string>
+    <string name="back_height_low_label">كامل</string>
+</resources>
