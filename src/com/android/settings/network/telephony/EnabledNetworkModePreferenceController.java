@@ -101,23 +101,8 @@ public class EnabledNetworkModePreferenceController extends
     private static final int GENERATION_3G = 1 << 1;
     private static final int GENERATION_4G = 1 << 2;
     private static final int GENERATION_5G = 1 << 3;
-    private static final int[] GENERATION_COMBINATION_ORDER = {
-            GENERATION_5G | GENERATION_4G | GENERATION_3G | GENERATION_2G,
-            GENERATION_5G | GENERATION_4G | GENERATION_3G,
-            GENERATION_5G | GENERATION_4G | GENERATION_2G,
-            GENERATION_5G | GENERATION_3G | GENERATION_2G,
-            GENERATION_4G | GENERATION_3G | GENERATION_2G,
-            GENERATION_5G | GENERATION_4G,
-            GENERATION_5G | GENERATION_3G,
-            GENERATION_5G | GENERATION_2G,
-            GENERATION_4G | GENERATION_3G,
-            GENERATION_4G | GENERATION_2G,
-            GENERATION_3G | GENERATION_2G,
-            GENERATION_5G,
-            GENERATION_4G,
-            GENERATION_3G,
-            GENERATION_2G,
-    };
+    private static final int GENERATION_ALL = GENERATION_2G | GENERATION_3G
+            | GENERATION_4G | GENERATION_5G;
 
     private int mSubId = SubscriptionManager.INVALID_SUBSCRIPTION_ID;
     private AllowedNetworkTypesListener mAllowedNetworkTypesListener;
@@ -1040,9 +1025,17 @@ public class EnabledNetworkModePreferenceController extends
                 supportedGenerations |= GENERATION_5G;
             }
 
-            for (int combination : GENERATION_COMBINATION_ORDER) {
-                if ((combination & supportedGenerations) == combination) {
-                    addGenerationCombination(combination);
+            // Generate the complete powerset (2^N - 1) of the supported generations.
+            // Sort by number of enabled generations first, then by generation priority
+            // (5G -> LTE/4G -> 3G -> 2G) for a predictable, easy-to-scan list.
+            for (int generationCount = Integer.bitCount(GENERATION_ALL);
+                    generationCount >= 1; generationCount--) {
+                for (int combination = GENERATION_ALL; combination >= GENERATION_2G;
+                        combination--) {
+                    if (Integer.bitCount(combination) == generationCount
+                            && (combination & supportedGenerations) == combination) {
+                        addGenerationCombination(combination);
+                    }
                 }
             }
         }
@@ -1099,6 +1092,42 @@ public class EnabledNetworkModePreferenceController extends
         }
 
         private boolean containsEntryWithRaf(long targetRaf) {
+            for (Integer value : mEntriesValue) {
+                final Long customRaf = mCustomModeRaf.get(value);
+                final long entryRaf = customRaf != null
+                        ? customRaf
+                        : Integer.toUnsignedLong(RadioAccessFamily.getRafFromNetworkType(value));
+                if ((entryRaf & mSupportedRaf) == targetRaf) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @VisibleForTesting
+        int getSupportedGenerationMask() {
+            int supportedGenerations = 0;
+            if (checkSupportedRadioBitmask(mSupportedRaf, BITMASK_2G)) {
+                supportedGenerations |= GENERATION_2G;
+            }
+            if (checkSupportedRadioBitmask(mSupportedRaf, BITMASK_3G)) {
+                supportedGenerations |= GENERATION_3G;
+            }
+            if (checkSupportedRadioBitmask(mSupportedRaf, BITMASK_4G)) {
+                supportedGenerations |= GENERATION_4G;
+            }
+            if (checkSupportedRadioBitmask(mSupportedRaf, BITMASK_5G)) {
+                supportedGenerations |= GENERATION_5G;
+            }
+            return supportedGenerations;
+        }
+
+        @VisibleForTesting
+        boolean hasGenerationCombination(int generations) {
+            final long targetRaf = buildGenerationRaf(generations);
+            if (targetRaf == 0) {
+                return false;
+            }
             for (Integer value : mEntriesValue) {
                 final Long customRaf = mCustomModeRaf.get(value);
                 final long entryRaf = customRaf != null
