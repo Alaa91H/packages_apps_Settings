@@ -56,6 +56,7 @@ import androidx.test.annotation.UiThreadTest;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.android.settings.R;
 import com.android.settings.network.CarrierConfigCache;
 import com.android.settings.testutils.ResourcesUtils;
 import com.android.settingslib.core.lifecycle.Lifecycle;
@@ -522,51 +523,55 @@ public class EnabledNetworkModePreferenceControllerTest {
 
     @UiThreadTest
     @Test
-    public void updateState_supported3g4g5g_showsPreciseFallbackModes() {
+    public void updateState_allHardwareGenerations_exposesCompleteGenerationPowerset() {
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE)).thenReturn(null);
-        mockAllowedNetworkTypes(ALLOWED_ALL_NETWORK_TYPE);
-        mPersistableBundle.putIntArray(
-                CarrierConfigManager.KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY,
-                new int[] {CarrierConfigManager.CARRIER_NR_AVAILABILITY_NSA});
-        mockEnabledNetworkMode(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+
+        // Deliberately hide generations through carrier/config reasons. The advanced list must
+        // still cover every non-empty subset of the generations reported by the modem.
+        mockAllowedNetworkTypes(0L);
+        mPersistableBundle.putBoolean(CarrierConfigManager.KEY_PREFER_2G_BOOL, false);
+        mPersistableBundle.putBoolean(CarrierConfigManager.KEY_LTE_ENABLED_BOOL, false);
+        when(mTelephonyManager.getAllowedNetworkTypesForReason(
+                TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_ENABLE_2G)).thenReturn(0L);
+        mockPhoneType(TelephonyManager.PHONE_TYPE_GSM);
         mockAccessFamily(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
         mController.init(SUB_ID, mFragmentManager);
 
         mController.updateState(mPreference);
 
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA));
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_NR_LTE));
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_LTE_WCDMA));
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_LTE_ONLY));
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_WCDMA_ONLY));
-        assertThat(mPreference.getEntryValues()).asList().doesNotContain(
-                String.valueOf(TelephonyManager.NETWORK_MODE_NR_ONLY));
+        final int supportedGenerations = mController.mBuilder.getSupportedGenerationMask();
+        int expectedCombinations = 0;
+        for (int combination = 1; combination <= supportedGenerations; combination++) {
+            if ((combination & supportedGenerations) == combination) {
+                expectedCombinations++;
+                assertTrue(
+                        "Missing generation combination mask " + combination,
+                        mController.mBuilder.hasGenerationCombination(combination));
+            }
+        }
+
+        // Four supported generations must expose all 2^4 - 1 = 15 non-empty combinations,
+        // whether a combination is represented by a stock entry or a custom raw-RAF entry.
+        assertEquals(15, expectedCombinations);
+        assertThat(mPreference.getEntries()).asList().contains(
+                mContext.getString(R.string.evolver_network_mode_only_format, "2G"));
+        assertThat(mPreference.getEntries()).asList().contains(
+                mContext.getString(R.string.evolver_network_mode_only_format, "5G / LTE / 2G"));
     }
 
     @UiThreadTest
     @Test
-    public void updateState_nrSaSupported_shows5gOnly() {
+    public void updateState_nrSaCarrierFlagMissing_stillShows5gOnlyFromHardware() {
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE)).thenReturn(null);
-        mockAllowedNetworkTypes(ALLOWED_ALL_NETWORK_TYPE);
-        mPersistableBundle.putIntArray(
-                CarrierConfigManager.KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY,
-                new int[] {
-                        CarrierConfigManager.CARRIER_NR_AVAILABILITY_NSA,
-                        CarrierConfigManager.CARRIER_NR_AVAILABILITY_SA
-                });
-        mockEnabledNetworkMode(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
-        mockAccessFamily(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+        mockAllowedNetworkTypes(0L);
+        mockPhoneType(TelephonyManager.PHONE_TYPE_GSM);
+        mockAccessFamily(TelephonyManager.NETWORK_MODE_NR_LTE);
         mController.init(SUB_ID, mFragmentManager);
 
         mController.updateState(mPreference);
 
-        assertThat(mPreference.getEntryValues()).asList().contains(
-                String.valueOf(TelephonyManager.NETWORK_MODE_NR_ONLY));
+        assertThat(mPreference.getEntries()).asList().contains(
+                mContext.getString(R.string.evolver_network_mode_only_format, "5G"));
     }
 
     @UiThreadTest
