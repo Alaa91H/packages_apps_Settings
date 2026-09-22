@@ -83,7 +83,7 @@ public class EnabledNetworkModePreferenceController extends
     private static final long BITMASK_3G = TelephonyManager.NETWORK_TYPE_BITMASK_HSDPA
             | TelephonyManager.NETWORK_TYPE_BITMASK_HSPA
             | TelephonyManager.NETWORK_TYPE_BITMASK_HSUPA
-            | TelephonyManager.NETWORK_TYPE_BITMASK_HSDPA
+            | TelephonyManager.NETWORK_TYPE_BITMASK_HSPAP
             | TelephonyManager.NETWORK_TYPE_BITMASK_UMTS
             | TelephonyManager.NETWORK_TYPE_BITMASK_TD_SCDMA
             | TelephonyManager.NETWORK_TYPE_BITMASK_EHRPD
@@ -307,6 +307,9 @@ public class EnabledNetworkModePreferenceController extends
         private boolean mDisplay3gOptions;
         private boolean mDisplay4gOptions;
         private boolean mDisplay5gOptions;
+        private boolean mIsNrSaAvailable;
+        private long mSupportedRaf;
+        private long mCarrierAllowedRaf;
         private int mSelectedEntry;
         private int mSubId;
         private String mSummary = "";
@@ -329,6 +332,9 @@ public class EnabledNetworkModePreferenceController extends
 
             // Load the network types actually supported by the baseband.
             final long supportedRaf = mTelephonyManager.getSupportedRadioAccessFamily();
+            mSupportedRaf = supportedRaf;
+            mCarrierAllowedRaf = mTelephonyManager.getAllowedNetworkTypesForReason(
+                    TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_CARRIER);
             final boolean supported5g = checkSupportedRadioBitmask(supportedRaf, BITMASK_5G);
             final boolean supported4g = checkSupportedRadioBitmask(supportedRaf, BITMASK_4G);
             final boolean supported3g = checkSupportedRadioBitmask(supportedRaf, BITMASK_3G);
@@ -412,13 +418,21 @@ public class EnabledNetworkModePreferenceController extends
 
             // 5G option display
             final boolean allowed5gNetworkType = checkSupportedRadioBitmask(
-                    mTelephonyManager.getAllowedNetworkTypesForReason(
-                        TelephonyManager.ALLOWED_NETWORK_TYPES_REASON_CARRIER),
-                    TelephonyManager.NETWORK_TYPE_BITMASK_NR);
+                    mCarrierAllowedRaf, TelephonyManager.NETWORK_TYPE_BITMASK_NR);
             mDisplay5gOptions = supported5g && allowed5gNetworkType;
             Log.d(LOG_TAG, "mDisplay5gOptions: " + mDisplay5gOptions
                     + ", supported5g: " + supported5g
                     + ", allowed5gNetworkType: " + allowed5gNetworkType);
+
+            mIsNrSaAvailable = false;
+            if (mDisplay5gOptions && carrierConfig != null) {
+                final int[] nrAvailabilities = carrierConfig.getIntArray(
+                        CarrierConfigManager.KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY);
+                mIsNrSaAvailable = nrAvailabilities != null
+                        && IntStream.of(nrAvailabilities).anyMatch(
+                                value -> value == CarrierConfigManager.CARRIER_NR_AVAILABILITY_SA);
+            }
+            Log.d(LOG_TAG, "mIsNrSaAvailable: " + mIsNrSaAvailable);
         }
 
         private boolean is2gDisabledByAdmin() {
@@ -581,6 +595,8 @@ public class EnabledNetworkModePreferenceController extends
                         throw new IllegalArgumentException("Not supported ui options format.");
                 }
             });
+
+            addAdvancedEntries();
         }
 
         private int getPreferredNetworkMode() {
@@ -684,6 +700,18 @@ public class EnabledNetworkModePreferenceController extends
                     setSummary(R.string.network_3G);
                     break;
                 case TelephonyManager.NETWORK_MODE_WCDMA_ONLY:
+                    if (!mIsGlobalCdma
+                            && mEntriesValue.contains(TelephonyManager.NETWORK_MODE_WCDMA_ONLY)) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_WCDMA_ONLY);
+                        setSummary(R.string.evolver_network_3g_only);
+                    } else if (!mIsGlobalCdma) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_WCDMA_PREF);
+                        setSummary(R.string.network_3G);
+                    } else {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_CDMA_EVDO_GSM_WCDMA);
+                        setSummary(R.string.network_global);
+                    }
+                    break;
                 case TelephonyManager.NETWORK_MODE_GSM_UMTS:
                 case TelephonyManager.NETWORK_MODE_WCDMA_PREF:
                     if (!mIsGlobalCdma) {
@@ -709,9 +737,34 @@ public class EnabledNetworkModePreferenceController extends
                                 R.string.preferred_network_mode_lte_gsm_umts_summary);
                         break;
                     }
-                case TelephonyManager.NETWORK_MODE_LTE_ONLY:
-                case TelephonyManager.NETWORK_MODE_LTE_WCDMA:
                     if (!mIsGlobalCdma) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_GSM_WCDMA);
+                        if (is5gEntryDisplayed()) {
+                            setSummary(mShow4gForLTE
+                                    ? R.string.network_4G_pure : R.string.network_lte_pure);
+                        } else {
+                            setSummary(mShow4gForLTE
+                                    ? R.string.network_4G : R.string.network_lte);
+                        }
+                    } else {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_CDMA_EVDO_GSM_WCDMA);
+                        setSummary(R.string.network_global);
+                    }
+                    break;
+                case TelephonyManager.NETWORK_MODE_LTE_ONLY:
+                    setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_ONLY);
+                    setSummary(mShow4gForLTE
+                            ? R.string.evolver_network_4g_only
+                            : R.string.evolver_network_lte_only);
+                    break;
+                case TelephonyManager.NETWORK_MODE_LTE_WCDMA:
+                    if (!mIsGlobalCdma
+                            && mEntriesValue.contains(TelephonyManager.NETWORK_MODE_LTE_WCDMA)) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_WCDMA);
+                        setSummary(mShow4gForLTE
+                                ? R.string.evolver_network_4g_3g_only
+                                : R.string.evolver_network_lte_3g_only);
+                    } else if (!mIsGlobalCdma) {
                         setSelectedEntry(TelephonyManager.NETWORK_MODE_LTE_GSM_WCDMA);
                         if (is5gEntryDisplayed()) {
                             setSummary(mShow4gForLTE
@@ -784,9 +837,40 @@ public class EnabledNetworkModePreferenceController extends
                     break;
 
                 case TelephonyManager.NETWORK_MODE_NR_ONLY:
+                    if (mEntriesValue.contains(TelephonyManager.NETWORK_MODE_NR_ONLY)) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_ONLY);
+                        setSummary(R.string.evolver_network_5g_only);
+                    } else {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+                        setSummary(getResourcesForSubId().getString(
+                                R.string.network_5G_recommended));
+                    }
+                    break;
                 case TelephonyManager.NETWORK_MODE_NR_LTE:
-                case TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA:
+                    if (mEntriesValue.contains(TelephonyManager.NETWORK_MODE_NR_LTE)) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE);
+                        setSummary(mShow4gForLTE
+                                ? R.string.evolver_network_5g_4g_only
+                                : R.string.evolver_network_5g_lte_only);
+                    } else {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+                        setSummary(getResourcesForSubId().getString(
+                                R.string.network_5G_recommended));
+                    }
+                    break;
                 case TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA:
+                    if (mEntriesValue.contains(TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA)) {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA);
+                        setSummary(mShow4gForLTE
+                                ? R.string.evolver_network_5g_4g_3g_only
+                                : R.string.evolver_network_5g_lte_3g_only);
+                    } else {
+                        setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+                        setSummary(getResourcesForSubId().getString(
+                                R.string.network_5G_recommended));
+                    }
+                    break;
+                case TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA:
                     setSelectedEntry(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
                     setSummary(getResourcesForSubId().getString(R.string.network_5G_recommended));
                     break;
@@ -894,6 +978,77 @@ public class EnabledNetworkModePreferenceController extends
             mEntriesValue.add(value);
         }
 
+        /**
+         * Add precise fallback combinations supported by both the modem and the carrier.
+         *
+         * <p>The regular Android entries stay first and keep their familiar "recommended"
+         * behavior. These extra entries let advanced users remove legacy fallbacks without
+         * exposing combinations the device cannot actually register on.</p>
+         */
+        private void addAdvancedEntries() {
+            if (mTelephonyManager.getPhoneType() != TelephonyManager.PHONE_TYPE_GSM
+                    || MobileNetworkUtils.isWorldMode(mContext, mSubId)) {
+                return;
+            }
+
+            if (mDisplay5gOptions && mDisplay4gOptions && mDisplay3gOptions) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(mShow4gForLTE
+                                ? R.string.evolver_network_5g_4g_3g_only
+                                : R.string.evolver_network_5g_lte_3g_only),
+                        TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA);
+            }
+            if (mDisplay5gOptions && mDisplay4gOptions) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(mShow4gForLTE
+                                ? R.string.evolver_network_5g_4g_only
+                                : R.string.evolver_network_5g_lte_only),
+                        TelephonyManager.NETWORK_MODE_NR_LTE);
+            }
+            if (mDisplay5gOptions && mIsNrSaAvailable) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(R.string.evolver_network_5g_only),
+                        TelephonyManager.NETWORK_MODE_NR_ONLY);
+            }
+            if (mDisplay4gOptions && mDisplay3gOptions) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(mShow4gForLTE
+                                ? R.string.evolver_network_4g_3g_only
+                                : R.string.evolver_network_lte_3g_only),
+                        TelephonyManager.NETWORK_MODE_LTE_WCDMA);
+            }
+            if (mDisplay4gOptions) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(mShow4gForLTE
+                                ? R.string.evolver_network_4g_only
+                                : R.string.evolver_network_lte_only),
+                        TelephonyManager.NETWORK_MODE_LTE_ONLY);
+            }
+            if (mDisplay3gOptions) {
+                addModeEntryIfSupported(
+                        getResourcesForSubId().getString(R.string.evolver_network_3g_only),
+                        TelephonyManager.NETWORK_MODE_WCDMA_ONLY);
+            }
+        }
+
+        private void addModeEntryIfSupported(String name, int networkMode) {
+            if (mEntriesValue.contains(networkMode)) {
+                return;
+            }
+
+            final long modeRaf = Integer.toUnsignedLong(
+                    RadioAccessFamily.getRafFromNetworkType(networkMode));
+            final long availableRaf = mSupportedRaf & mCarrierAllowedRaf;
+            if (modeRaf == 0 || (modeRaf & ~availableRaf) != 0) {
+                Log.d(LOG_TAG, "Hide unsupported precise network mode: " + networkMode
+                        + ", modeRaf=" + modeRaf + ", availableRaf=" + availableRaf);
+                return;
+            }
+
+            mEntries.add(name);
+            mEntriesValue.add(networkMode);
+        }
+
         private void addCustomEntry(String name, int value) {
             mEntries.add(name);
             mEntriesValue.add(value);
@@ -906,6 +1061,7 @@ public class EnabledNetworkModePreferenceController extends
         private void clearAllEntries() {
             mEntries.clear();
             mEntriesValue.clear();
+            mIs5gEntryDisplayed = false;
         }
 
         private String[] getEntryValues() {
