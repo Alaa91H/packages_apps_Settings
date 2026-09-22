@@ -522,6 +522,55 @@ public class EnabledNetworkModePreferenceControllerTest {
 
     @UiThreadTest
     @Test
+    public void updateState_supported3g4g5g_showsPreciseFallbackModes() {
+        when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE)).thenReturn(null);
+        mockAllowedNetworkTypes(ALLOWED_ALL_NETWORK_TYPE);
+        mPersistableBundle.putIntArray(
+                CarrierConfigManager.KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY,
+                new int[] {CarrierConfigManager.CARRIER_NR_AVAILABILITY_NSA});
+        mockEnabledNetworkMode(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+        mockAccessFamily(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+        mController.init(SUB_ID, mFragmentManager);
+
+        mController.updateState(mPreference);
+
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_NR_LTE_WCDMA));
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_NR_LTE));
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_LTE_WCDMA));
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_LTE_ONLY));
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_WCDMA_ONLY));
+        assertThat(mPreference.getEntryValues()).asList().doesNotContain(
+                String.valueOf(TelephonyManager.NETWORK_MODE_NR_ONLY));
+    }
+
+    @UiThreadTest
+    @Test
+    public void updateState_nrSaSupported_shows5gOnly() {
+        when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE)).thenReturn(null);
+        mockAllowedNetworkTypes(ALLOWED_ALL_NETWORK_TYPE);
+        mPersistableBundle.putIntArray(
+                CarrierConfigManager.KEY_CARRIER_NR_AVAILABILITIES_INT_ARRAY,
+                new int[] {
+                        CarrierConfigManager.CARRIER_NR_AVAILABILITY_NSA,
+                        CarrierConfigManager.CARRIER_NR_AVAILABILITY_SA
+                });
+        mockEnabledNetworkMode(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+        mockAccessFamily(TelephonyManager.NETWORK_MODE_NR_LTE_GSM_WCDMA);
+        mController.init(SUB_ID, mFragmentManager);
+
+        mController.updateState(mPreference);
+
+        assertThat(mPreference.getEntryValues()).asList().contains(
+                String.valueOf(TelephonyManager.NETWORK_MODE_NR_ONLY));
+    }
+
+    @UiThreadTest
+    @Test
     public void updateState_satelliteIsStartedAndSelectedSubForSatellite_disablePreference() {
         mController.mSatelliteModemStateCallback
                 .onSatelliteModemStateChanged(SATELLITE_MODEM_STATE_CONNECTED);
