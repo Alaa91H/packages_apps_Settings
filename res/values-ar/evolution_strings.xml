@@ -3,4 +3,7 @@
     <!-- Clipboard overlay -->
     <string name="show_clipboard_overlay_title">إظهار معاينة الحافظة</string>
     <string name="show_clipboard_overlay_summary">إظهار نافذة معاينة عند نسخ محتوى إلى الحافظة</string>
+
+    <!-- Radio Info -->
+    <string name="radio_info_title">معلومات الشبكة الخلوية</string>
 </resources>
