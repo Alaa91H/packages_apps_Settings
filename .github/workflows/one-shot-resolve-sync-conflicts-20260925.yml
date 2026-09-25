@@ -76,8 +76,8 @@ jobs:
             fi
             echo "::endgroup::"
           done <<'BRANCHES'
-arabic-localization-20260922
-BRANCHES
+          arabic-localization-20260922
+          BRANCHES
 
           echo "RESOLVE_TOTAL=$total"
           echo "RESOLVE_SUCCESS=$synced"
