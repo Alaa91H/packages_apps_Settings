@@ -1,0 +1,38 @@
+name: Connectivity Auto-off Settings validation
+
+on:
+  pull_request:
+    branches:
+      - cnb
+    paths:
+      - "res/values/evolution_arrays.xml"
+      - "res/xml/bluetooth_screen.xml"
+      - "res/xml/network_provider_settings.xml"
+      - "src/com/android/settings/network/ConnectivityAutoOffPreferenceController.java"
+      - "tools/validate_connectivity_auto_off_settings.py"
+      - ".github/workflows/connectivity-auto-off-settings-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Connectivity Auto-off Settings invariants
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Validate checker syntax
+        run: python3 -m py_compile tools/validate_connectivity_auto_off_settings.py
+
+      - name: Validate Settings contract
+        run: python3 tools/validate_connectivity_auto_off_settings.py
+
+      - name: Check patch whitespace
+        run: git diff --check HEAD^ HEAD
