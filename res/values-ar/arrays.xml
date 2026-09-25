@@ -532,4 +532,22 @@
     <item msgid="5687603742365489342">"الإعدادات السريعة"</item>
     <item msgid="5454862951059393431">"شاشة القفل"</item>
   </string-array>
+
+    <!-- Arabic completeness pass: arrays containing user-visible literal text -->
+    <string-array name="wifi_privacy_entries_ext">
+        <item>استخدام عنوان MAC عشوائي لكل اتصال (افتراضي)</item>
+        <item>استخدام عنوان MAC عشوائي لكل شبكة</item>
+        <item>استخدام عنوان MAC للجهاز</item>
+    </string-array>
+
+    <string-array name="terms_of_address">
+        <item>غير محدد</item>
+        <item>محايد</item>
+        <item>مؤنث</item>
+        <item>مذكر</item>
+    </string-array>
+
+    <string-array name="fingerprint_acquired_vendor">
+        <item>بصمة الإصبع ثابتة</item>
+    </string-array>
 </resources>
