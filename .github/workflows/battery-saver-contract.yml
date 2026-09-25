@@ -1,0 +1,42 @@
+name: Battery Saver cross-repo validation
+
+on:
+  pull_request:
+    branches:
+      - cnb
+    paths:
+      - "res/xml/battery_saver_settings.xml"
+      - "tools/validate_battery_saver_contract.py"
+      - ".github/workflows/battery-saver-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Settings / Evolver Battery Saver contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Settings
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Checkout Evolver contract source
+        uses: actions/checkout@v4
+        with:
+          repository: Alaa91H/packages_apps_Evolver
+          ref: cnb
+          path: external/evolver
+
+      - name: Validate checker syntax
+        run: python3 -m py_compile tools/validate_battery_saver_contract.py
+
+      - name: Validate cross-repository contract
+        run: python3 tools/validate_battery_saver_contract.py --evolver-root external/evolver
+
+      - name: Check patch whitespace
+        run: git diff --check HEAD^ HEAD
